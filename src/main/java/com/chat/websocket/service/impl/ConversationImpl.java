@@ -7,6 +7,7 @@ import com.chat.websocket.repository.ConversationRepository;
 import com.chat.websocket.repository.GroupMemberRepository;
 import com.chat.websocket.service.ConversationService;
 import com.chat.websocket.service.GroupMemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -16,18 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ConversationImpl implements ConversationService {
 
-    @Autowired
-    private ConversationRepository conversationRepository;
-    @Autowired
-    private ContactRepository contactRepository;
-    @Autowired
-    private GroupMemberRepository groupMemberRepository;
-
-    @Autowired
+    private final ConversationRepository conversationRepository;
+    private final ContactRepository contactRepository;
+    private final GroupMemberRepository groupMemberRepository;
     @Lazy
-    private GroupMemberService groupMemberService;
+    private final GroupMemberService groupMemberService;
 
     @Override
     public List<Conversation> getAllConversation() {

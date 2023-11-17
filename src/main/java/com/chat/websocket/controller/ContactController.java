@@ -11,6 +11,7 @@ import com.chat.websocket.service.ConversationService;
 import com.chat.websocket.service.GroupMemberService;
 import com.chat.websocket.service.MessageService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +22,10 @@ import java.util.List;
 //@Controller
 @RestController
 @RequestMapping("/api/chat")
+@RequiredArgsConstructor
 public class ContactController {
-   @Autowired
-   private ContactService contactService;
-   @Autowired
-   private ConversationService conversationService;
-   @Autowired
-   private GroupMemberService groupMemberService;
-   @Autowired
-   private MessageService messageService;
+
+   private final ContactService contactService;
 
     //
     //  Contact

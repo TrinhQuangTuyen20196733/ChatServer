@@ -5,6 +5,7 @@ import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.repository.ContactRepository;
 import com.chat.websocket.repository.GroupMemberRepository;
 import com.chat.websocket.service.ContactService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ContactImpl implements ContactService {
 
-    @Autowired
-    private ContactRepository contactRepository;
-    @Autowired
-    private GroupMemberRepository groupMemberRepository;
+    private final ContactRepository contactRepository;
+    private final GroupMemberRepository groupMemberRepository;
 
     @Override
     public List<Contact> getAllContact() {

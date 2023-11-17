@@ -5,6 +5,7 @@ import com.chat.websocket.entity.Message;
 import com.chat.websocket.repository.MessageRepository;
 import com.chat.websocket.service.ConversationService;
 import com.chat.websocket.service.MessageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MessageImpl implements MessageService {
 
-    @Autowired
-    private MessageRepository messageRepository;
-
-    @Autowired
-    private ConversationService conversationService;
+    private final MessageRepository messageRepository;
+    private final ConversationService conversationService;
 
     @Override
     public List<Message> getAllMessage() {

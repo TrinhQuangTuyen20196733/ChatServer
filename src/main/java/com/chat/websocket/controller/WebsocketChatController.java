@@ -6,6 +6,7 @@ import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.Message;
 import com.chat.websocket.service.ConversationService;
 import com.chat.websocket.service.MessageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,12 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 //@RestController
+@RequiredArgsConstructor
 public class WebsocketChatController {
 
-    @Autowired
-    private MessageService messageService;
-    @Autowired
-    private ConversationService conversationService;
+    private final MessageService messageService;
+    private final ConversationService conversationService;
 
     //
     // Websocket
