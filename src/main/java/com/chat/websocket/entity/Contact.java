@@ -43,7 +43,8 @@ public class Contact {
     @OneToMany(mappedBy = "contact",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+                    CascadeType.DETACH, CascadeType.REFRESH},
+            orphanRemoval = true)
     private List<GroupMember> groupMembers;
 
     public void addGroupMember(GroupMember tempGroupMember) {

@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConversationAndContactsRequests {
+public class ConversationAndContactsRequest {
     @Valid
     private ConversationRequest conversationRequest;
 

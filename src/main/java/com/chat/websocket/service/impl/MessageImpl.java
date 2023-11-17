@@ -21,12 +21,12 @@ public class MessageImpl implements MessageService {
     private ConversationService conversationService;
 
     @Override
-    public List<Message> findAll() {
+    public List<Message> getAllMessage() {
         return messageRepository.findAll();
     }
 
     @Override
-    public Message findByID(int id) {
+    public Message getMessageByID(int id) {
         Optional<Message> messageResult = messageRepository.findById(id);
         Message message = messageResult.get();
 
@@ -34,20 +34,29 @@ public class MessageImpl implements MessageService {
     }
 
     @Override
-    public Message saveReturnSaved(Message message) {
+    public Message addMessageAndReturnMessageSaved(Message message) {
         Message messageSaved = messageRepository.save(message);
 
         return messageSaved;
     }
 
     @Override
-    public void save(Message message) {
+    public void addMessage(Message message) {
         messageRepository.save(message);
     }
 
     @Override
-    public void deleteByID(int id) {
-        messageRepository.deleteById(id);
+    public Message deleteMessageByID(int id) {
+        Optional<Message> messageResult = messageRepository.findById(id);
+
+        if (messageResult.isPresent()) {
+            messageRepository.deleteById(id);
+
+            return messageResult.get();
+        }
+
+        return null;
+
     }
 
     @Override
@@ -66,7 +75,7 @@ public class MessageImpl implements MessageService {
 
     @Override
     public void createMessageByConversationID(Message message, int conversationID) {
-        Conversation conversation = conversationService.findByID(conversationID);
+        Conversation conversation = conversationService.getConversationByID(conversationID);
 
         message.setConversation(conversation);
 

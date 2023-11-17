@@ -8,6 +8,7 @@ import com.chat.websocket.service.ContactService;
 import com.chat.websocket.service.ConversationService;
 import com.chat.websocket.service.GroupMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,23 +21,17 @@ public class GroupMemberImpl implements GroupMemberService {
     private GroupMemberRepository groupMemberRepository;
     @Autowired
     private ContactService contactService;
-
-    private ConversationService conversationService;
     @Autowired
-    public void setConversationService(ConversationService conversationService) {
-        this.conversationService = conversationService;
-    }
-    public ConversationService getConversationService() {
-        return conversationService;
-    }
+    @Lazy
+    private ConversationService conversationService;
 
     @Override
-    public List<GroupMember> findAll() {
+    public List<GroupMember> getAllGroupMember() {
         return groupMemberRepository.findAll();
     }
 
     @Override
-    public GroupMember findByID(int id) {
+    public GroupMember getGroupMemberByID(int id) {
         Optional<GroupMember> groupMemberResult = groupMemberRepository.findById(id);
         GroupMember groupMember = groupMemberResult.get();
 
@@ -44,22 +39,29 @@ public class GroupMemberImpl implements GroupMemberService {
     }
 
     @Override
-    public GroupMember saveReturnSaved(GroupMember groupMember) {
+    public GroupMember addGroupMemberAndReturnGroupMemberSaved(GroupMember groupMember) {
         GroupMember groupMemberSaved = groupMemberRepository.save(groupMember);
 
         return groupMemberSaved;
     }
 
     @Override
-    public void save(GroupMember groupMember) {
+    public void addGroupMember(GroupMember groupMember) {
         groupMemberRepository.saveAndFlush(groupMember);
     }
 
     @Override
-    public void deleteByID(int id) {
-        groupMemberRepository.deleteById(id);
-    }
+    public GroupMember deleteGroupMemberByID(int id) {
+        Optional<GroupMember> groupMemberResult = groupMemberRepository.findById(id);
 
+        if (groupMemberResult.isPresent()) {
+            groupMemberRepository.deleteById(id);
+
+            return groupMemberResult.get();
+        }
+
+        return null;
+    }
 
     @Override
     public List<GroupMember> findGroupMembersByContactID(int contactID) {
@@ -76,13 +78,17 @@ public class GroupMemberImpl implements GroupMemberService {
     }
 
     @Override
-    public void createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID) {
-        Conversation conversation = conversationService.findByID(conversationID);
-        Contact contact = contactService.findByID(contactID);
+    public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID) {
+        Conversation conversation = conversationService.getConversationByID(conversationID);
+        Contact contact = contactService.getContactByID(contactID);
 
         groupMember.setConversation(conversation);
         groupMember.setContact(contact);
 
-        groupMemberRepository.save(groupMember);
+         if (addGroupMemberAndReturnGroupMemberSaved(groupMember) != null) {
+             return addGroupMemberAndReturnGroupMemberSaved(groupMember);
+         }
+
+         return null;
     }
 }

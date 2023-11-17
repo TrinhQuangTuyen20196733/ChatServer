@@ -150,7 +150,7 @@ public class WebsocketApplication {
 //			}
 
 			// Find by id
-//			Contact contact = contactService.findByID(1);
+//			Contact contact = contactService.findByID(10);
 //			System.out.println("Contact: " + contact);
 
 			// Save new contact
@@ -162,7 +162,8 @@ public class WebsocketApplication {
 //			contactService.save(contact);
 
 			// Delete contact by id
-//			contactService.deleteByID(4);
+//			Contact contact = contactService.deleteByID(6);
+//			System.out.println("Contact deleteted: "+contact);
 
 			// Find contact by group member id
 //			Contact contact = contactService.findContactByGroupMemberID(5);
@@ -207,22 +208,22 @@ public class WebsocketApplication {
 
 
 			// Delete conversation by id
-//			conversationService.deleteByID(4);
+//			conversationService.deleteByID(2);
 
 			// Find conversation by contact id
-	//			List<Conversation>  conversations = conversationService.findConversationsByContactID(1);
-	//			for (Conversation conversation :
-	//					conversations) {
-	//				System.out.println("Conversation: " + conversation);
-	//			}
+//				List<Conversation>  conversations = conversationService.findConversationsByContactID(1);
+//				for (Conversation conversation :
+//						conversations) {
+//					System.out.println("Conversation: " + conversation);
+//				}
 
 			// Find conversation by group member id
 //			Conversation conversation = conversationService.findConversationByGroupMemberID(1);
 //			System.out.println("Conversation: "+conversation);
 
 			// Create conversation with group member
-			Conversation conversation = new Conversation();
-			conversation.setConversationName("Nhom ");
+//			Conversation conversation = new Conversation();
+//			conversation.setConversationName("Nhom ");
 		};
 	}
 }

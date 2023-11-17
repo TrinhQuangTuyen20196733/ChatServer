@@ -21,45 +21,65 @@ public class ContactImpl implements ContactService {
     private GroupMemberRepository groupMemberRepository;
 
     @Override
-    public List<Contact> findAll() {
+    public List<Contact> getAllContact() {
         return contactRepository.findAll();
     }
 
     @Override
-    public Contact findByID(int id) {
+    public Contact getContactByID(int id) {
         Optional<Contact> contactResult = contactRepository.findById(id);
-        Contact contact = contactResult.get();;
+        Contact contact = new Contact();
+
+        // Check if contact exists
+        if (contactResult.isPresent()) {
+            contact = contactResult.get();;
+        } else {
+            contact = null;
+        }
 
         return contact;
     }
 
     @Override
-    public Contact saveReturnSaved(Contact contact) {
+    public Contact addContactAndReturnContactSaved(Contact contact) {
         Contact contactSaved =contactRepository.save(contact);
         return contactSaved;
     }
 
     @Override
-    public void save(Contact contact) {
+    public void addContact(Contact contact) {
         contactRepository.save(contact);
     }
 
     @Override
-    public void deleteByID(int id) {
-        contactRepository.deleteById(id);
+    public Contact deleteContactByID(int id) {
+        Optional<Contact> contactResult = contactRepository.findById(id);
+
+        if (contactResult.isPresent()) {
+            contactRepository.deleteById(id);
+            return contactResult.get();
+        }
+
+        return null;
     }
 
     @Override
     public Contact findContactByGroupMemberID(int groupMemberID) {
         // Get GroupMember
         Optional<GroupMember> groupMemberResult = groupMemberRepository.findById(groupMemberID);
-        GroupMember groupMember = groupMemberResult.get();
 
-        // Get Contact
-        int contactID = groupMember.getContact().getContactID();
-        Contact contact = findByID(contactID);
+        // Check if contact exists
+        if(groupMemberResult.isPresent()) {
+            GroupMember groupMember = groupMemberResult.get();
 
-        return contact;
+            // Get Contact
+            int contactID = groupMember.getContact().getContactID();
+            Contact contact = getContactByID(contactID);
+
+            return contact;
+        } else {
+            return null;
+        }
     }
 
     @Override

@@ -35,14 +35,16 @@ public class Conversation {
     @OneToMany(mappedBy = "conversation",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+                    CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE},
+            orphanRemoval = true)
     private List<GroupMember> groupMembers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "conversation",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+                    CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE},
+            orphanRemoval = true)
     private List<Message> messages;
 
     public void addGroupMember(GroupMember tempGroupMember) {

@@ -65,13 +65,13 @@ public class WebsocketChatController {
     // Save message is sent websocket
     public void createMessageInConversation(MessageRequest messageRequest, int conversationID) {
         // Identify conversation
-        Conversation conversation = conversationService.findByID(conversationID);
+        Conversation conversation = conversationService.getConversationByID(conversationID);
 
         // Message
         Message message = new Message(messageRequest);
         message.setConversation(conversation);
 
-        messageService.save(message);
+        messageService.addMessage(message);
     }
 
 }
