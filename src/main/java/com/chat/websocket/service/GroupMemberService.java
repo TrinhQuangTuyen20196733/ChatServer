@@ -12,7 +12,7 @@ public interface GroupMemberService {
 
     List<GroupMember> getAllGroupMember();
 
-    GroupMember getGroupMemberByID(int id);
+    GroupMember findById(int id);
 
     GroupMember addGroupMemberAndReturnGroupMemberSaved(GroupMember GroupMember);
 
@@ -26,5 +26,6 @@ public interface GroupMemberService {
     public List<GroupMember> findGroupMembersByConversationID(int conversationID);
 
     public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID);
+
 
 }

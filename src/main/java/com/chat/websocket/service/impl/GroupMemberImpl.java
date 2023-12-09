@@ -21,8 +21,16 @@ public class GroupMemberImpl implements GroupMemberService {
 
     private final GroupMemberRepository groupMemberRepository;
     private final ContactService contactService;
-    @Lazy
-    private final ConversationService conversationService;
+    private  ConversationService conversationService;
+
+    @Autowired
+    public ConversationService getConversationService() {
+        return conversationService;
+    }
+
+    public void setConversationService(ConversationService conversationService) {
+        this.conversationService = conversationService;
+    }
 
     @Override
     public List<GroupMember> getAllGroupMember() {
@@ -30,7 +38,7 @@ public class GroupMemberImpl implements GroupMemberService {
     }
 
     @Override
-    public GroupMember getGroupMemberByID(int id) {
+    public GroupMember findById(int id) {
         Optional<GroupMember> groupMemberResult = groupMemberRepository.findById(id);
         GroupMember groupMember = groupMemberResult.get();
 

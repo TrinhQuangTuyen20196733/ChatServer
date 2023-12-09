@@ -67,6 +67,14 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.kurento/kurento-client -->
+		<dependency>
+			<groupId>org.kurento</groupId>
+			<artifactId>kurento-client</artifactId>
+			<version>6.18.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

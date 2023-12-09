@@ -22,9 +22,19 @@ public class ConversationImpl implements ConversationService {
 
     private final ConversationRepository conversationRepository;
     private final ContactRepository contactRepository;
-    private final GroupMemberRepository groupMemberRepository;
+//    private final GroupMemberRepository groupMemberRepository;
+
     @Lazy
-    private final GroupMemberService groupMemberService;
+    private GroupMemberService groupMemberService;
+
+    @Autowired
+    public GroupMemberService getGroupMemberService() {
+        return groupMemberService;
+    }
+
+    public void setGroupMemberService(GroupMemberService groupMemberService) {
+        this.groupMemberService = groupMemberService;
+    }
 
     @Override
     public List<Conversation> getAllConversation() {
@@ -89,11 +99,9 @@ public class ConversationImpl implements ConversationService {
     @Override
     public Conversation findConversationByGroupMemberID(int groupMemberID) {
         // Group member
-        Optional<GroupMember> groupMemberResult = groupMemberRepository.findById(groupMemberID);
+        GroupMember groupMember = groupMemberService.findById(groupMemberID);
 
-        if (groupMemberResult.isPresent()) {
-            GroupMember groupMember = groupMemberResult.get();
-
+        if (groupMember != null) {
             // find Conversation by group member is
             int conversationID = groupMember.getConversation().getConversationID();
             Conversation conversation = getConversationByID(conversationID);
@@ -103,6 +111,4 @@ public class ConversationImpl implements ConversationService {
 
         return null;
     }
-
 }
-
