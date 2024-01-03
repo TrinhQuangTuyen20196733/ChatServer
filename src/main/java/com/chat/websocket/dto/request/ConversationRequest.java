@@ -27,6 +27,8 @@ public class ConversationRequest {
 
     private List<String> groupMemberAvatarLocations;
 
+
+
     public ConversationRequest(Conversation conversation, String latestMessage, List<String> groupMemberAvatarLocations) {
         this.conversationID = conversation.getConversationID();
         this.conversationName = conversation.getConversationName();

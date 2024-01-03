@@ -21,7 +21,7 @@ import java.util.List;
 
 //@Controller
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/api/chat/messages")
 @RequiredArgsConstructor
 public class MessageController {
 
@@ -34,7 +34,7 @@ public class MessageController {
     // Message
     //
     // Get Message by conversation id
-    @GetMapping("/messages/conversation/{conversationID}")
+    @GetMapping("/conversation/{conversationID}")
     public List<MessageRequest> messageList(@PathVariable("conversationID") int conversationID) {
         // Messages request
         List<MessageRequest> messageRequests = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MessageController {
     }
 
     // Delete message
-    @DeleteMapping("/message/{messageID}")
+    @DeleteMapping("/{messageID}")
     public MessageResponse deleteMessage(@PathVariable("messageID") int messageID) {
         if (messageService.deleteMessageByID(messageID) != null) {
             return new MessageResponse(200, "Message deleted successfully!");

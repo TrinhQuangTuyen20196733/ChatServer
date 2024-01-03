@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface GroupMemberService {
-
 
     List<GroupMember> getAllGroupMember();
 
@@ -25,7 +23,7 @@ public interface GroupMemberService {
 
     public List<GroupMember> findGroupMembersByConversationID(int conversationID);
 
-    public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID);
+//    public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID);
 
 
 }

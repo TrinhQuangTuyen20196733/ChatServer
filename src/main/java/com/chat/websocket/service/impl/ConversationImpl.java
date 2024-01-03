@@ -21,20 +21,6 @@ import java.util.Optional;
 public class ConversationImpl implements ConversationService {
 
     private final ConversationRepository conversationRepository;
-    private final ContactRepository contactRepository;
-//    private final GroupMemberRepository groupMemberRepository;
-
-    @Lazy
-    private GroupMemberService groupMemberService;
-
-    @Autowired
-    public GroupMemberService getGroupMemberService() {
-        return groupMemberService;
-    }
-
-    public void setGroupMemberService(GroupMemberService groupMemberService) {
-        this.groupMemberService = groupMemberService;
-    }
 
     @Override
     public List<Conversation> getAllConversation() {
@@ -72,43 +58,43 @@ public class ConversationImpl implements ConversationService {
         return null;
     }
 
-    @Override
-    public List<Conversation> findConversationsByContactID(int contactID) {
-        // Conversation list
-        List<Conversation> conversations = new ArrayList<>();
-
-        // Get GroupMembers by ContactID
-        List<GroupMember> groupMembers = groupMemberService.findGroupMembersByContactID(contactID);
-
-        if (groupMembers != null ) {
-            for (GroupMember tempGroupMember:
-                    groupMembers) {
-
-                // Get Conversation by GroupMember
-                Conversation conversation = findConversationByGroupMemberID(tempGroupMember.getGroupMemberID());
-
-                conversations.add(conversation);
-            }
-
-            return conversations;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Conversation findConversationByGroupMemberID(int groupMemberID) {
-        // Group member
-        GroupMember groupMember = groupMemberService.findById(groupMemberID);
-
-        if (groupMember != null) {
-            // find Conversation by group member is
-            int conversationID = groupMember.getConversation().getConversationID();
-            Conversation conversation = getConversationByID(conversationID);
-
-            return conversation;
-        }
-
-        return null;
-    }
+//    @Override
+//    public List<Conversation> findConversationsByContactID(int contactID) {
+//        // Conversation list
+//        List<Conversation> conversations = new ArrayList<>();
+//
+//        // Get GroupMembers by ContactID
+//        List<GroupMember> groupMembers = groupMemberService.findGroupMembersByContactID(contactID);
+//
+//        if (groupMembers != null ) {
+//            for (GroupMember tempGroupMember:
+//                    groupMembers) {
+//
+//                // Get Conversation by GroupMember
+//                Conversation conversation = findConversationByGroupMemberID(tempGroupMember.getGroupMemberID());
+//
+//                conversations.add(conversation);
+//            }
+//
+//            return conversations;
+//        }
+//
+//        return null;
+//    }
+//
+//    @Override
+//    public Conversation findConversationByGroupMemberID(int groupMemberID) {
+//        // Group member
+//        GroupMember groupMember = groupMemberService.findById(groupMemberID);
+//
+//        if (groupMember != null) {
+//            // find Conversation by group member is
+//            int conversationID = groupMember.getConversation().getConversationID();
+//            Conversation conversation = getConversationByID(conversationID);
+//
+//            return conversation;
+//        }
+//
+//        return null;
+//    }
 }

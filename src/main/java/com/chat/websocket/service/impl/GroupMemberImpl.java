@@ -21,16 +21,6 @@ public class GroupMemberImpl implements GroupMemberService {
 
     private final GroupMemberRepository groupMemberRepository;
     private final ContactService contactService;
-    private  ConversationService conversationService;
-
-    @Autowired
-    public ConversationService getConversationService() {
-        return conversationService;
-    }
-
-    public void setConversationService(ConversationService conversationService) {
-        this.conversationService = conversationService;
-    }
 
     @Override
     public List<GroupMember> getAllGroupMember() {
@@ -84,18 +74,18 @@ public class GroupMemberImpl implements GroupMemberService {
         return groupMembers;
     }
 
-    @Override
-    public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID) {
-        Conversation conversation = conversationService.getConversationByID(conversationID);
-        Contact contact = contactService.getContactByID(contactID);
-
-        groupMember.setConversation(conversation);
-        groupMember.setContact(contact);
-
-         if (addGroupMemberAndReturnGroupMemberSaved(groupMember) != null) {
-             return addGroupMemberAndReturnGroupMemberSaved(groupMember);
-         }
-
-         return null;
-    }
+//    @Override
+//    public GroupMember createGroupMemberByConversationIDAndContactID(GroupMember groupMember, int conversationID, int contactID) {
+//        Conversation conversation = conversationService.getConversationByID(conversationID);
+//        Contact contact = contactService.getContactByID(contactID);
+//
+//        groupMember.setConversation(conversation);
+//        groupMember.setContact(contact);
+//
+//         if (addGroupMemberAndReturnGroupMemberSaved(groupMember) != null) {
+//             return addGroupMemberAndReturnGroupMemberSaved(groupMember);
+//         }
+//
+//         return null;
+//    }
 }

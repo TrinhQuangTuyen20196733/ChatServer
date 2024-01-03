@@ -6,10 +6,7 @@ import com.chat.websocket.entity.Contact;
 import com.chat.websocket.entity.Conversation;
 import com.chat.websocket.entity.GroupMember;
 import com.chat.websocket.entity.Message;
-import com.chat.websocket.service.ContactService;
-import com.chat.websocket.service.ConversationService;
-import com.chat.websocket.service.GroupMemberService;
-import com.chat.websocket.service.MessageService;
+import com.chat.websocket.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +17,26 @@ import java.util.List;
 
 //@Controller
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/api/chat/conversations")
 @RequiredArgsConstructor
 public class ConversationController {
    private final ContactService contactService;
    private final ConversationService conversationService;
    private final GroupMemberService groupMemberService;
    private final MessageService messageService;
+   private final ConversationAndGroupmemberService conversationAndGroupmemberService;
 
     //
     // Conversation
     //
     // Get conversations by contact id
-    @GetMapping("/conversations/contact/{contactID}")
+    @GetMapping("/contact/{contactID}")
     public List<ConversationRequest> conversationList(@PathVariable("contactID") int contactID) {
         // Conversattions request
         List<ConversationRequest> conversationRequests = new ArrayList<>();
 
         // Conversations
-        List<Conversation> conversations = conversationService.findConversationsByContactID(contactID);
+        List<Conversation> conversations = conversationAndGroupmemberService.findConversationsByContactID(contactID);
 
         for (Conversation conversation:
                 conversations) {
@@ -74,7 +72,7 @@ public class ConversationController {
     }
 
     // Create new conversation with group members
-    @PostMapping("/conversation")
+    @PostMapping
     public void createNewConversation(@RequestBody @Valid ConversationAndContactsRequest request) {
         // Contacts
         List<Contact> contacts = new ArrayList<>();
@@ -143,7 +141,7 @@ public class ConversationController {
     }
 
     // Delete conversation
-    @DeleteMapping("/conversation/{conversationID}")
+    @DeleteMapping("/{conversationID}")
     public MessageResponse deleteConversation(@PathVariable("conversationID") int conversationID) {
         if (contactService.deleteContactByID(conversationID) != null) {
             return new MessageResponse(200, "Conversation deleted successfully!");

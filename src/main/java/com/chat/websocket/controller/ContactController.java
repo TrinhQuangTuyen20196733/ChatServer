@@ -21,7 +21,7 @@ import java.util.List;
 
 //@Controller
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/api/chat/contacts")
 @RequiredArgsConstructor
 public class ContactController {
 
@@ -31,7 +31,7 @@ public class ContactController {
     //  Contact
     //
     // Get contact by contact id
-    @GetMapping("/contact/{contactID}")
+    @GetMapping("/{contactID}")
     public ContactRequest contactByContactID(@PathVariable("contactID") int contactID) {
         Contact contact = contactService.getContactByID(contactID);
 
@@ -41,14 +41,15 @@ public class ContactController {
     }
 
     // Get contact by group member id
-    @GetMapping("/contact/group-member/{groupMemberID}")
+    @GetMapping("/group-member/{groupMemberID}")
     public ContactRequest contactByGroupMember(@PathVariable("groupMemberID") int groupMemberID) {
         // Find contact by group member id
         Contact contact = contactService.findContactByGroupMemberID(groupMemberID);
 
         if (contact != null){
             // Create new contact request
-            ContactRequest contactRequest = new ContactRequest();
+            ContactRequest contactRequest = new ContactRequest(contact);
+            System.out.println(contactRequest.toString());
 
             return contactRequest;
         }
@@ -57,7 +58,7 @@ public class ContactController {
     }
 
     // Create contact
-    @PostMapping("/contact")
+    @PostMapping
     public MessageResponse createContact(@RequestBody @Valid ContactRequest contactRequest) {
         Contact contact = new Contact(contactRequest);
 
@@ -69,7 +70,7 @@ public class ContactController {
     }
 
     // Delete contact
-    @DeleteMapping("/contact/{contactID}")
+    @DeleteMapping("/{contactID}")
     public MessageResponse deleteContact(@PathVariable("contactID") int contactID) {
         if (contactService.deleteContactByID(contactID) != null) {
             return new MessageResponse(200, "Contact deleted successfully!");
