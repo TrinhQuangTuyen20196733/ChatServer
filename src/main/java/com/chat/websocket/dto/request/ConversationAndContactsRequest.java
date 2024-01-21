@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConversationAndContactsRequest {
-    @Valid
-    private ConversationRequest conversationRequest;
+//    @Valid
+//    private ConversationRequest conversationRequest;
 
     @Valid
     private List<ContactRequest> contactRequests;

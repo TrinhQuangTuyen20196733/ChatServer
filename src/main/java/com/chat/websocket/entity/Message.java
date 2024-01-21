@@ -5,26 +5,29 @@ import com.chat.websocket.enum_constant.MessageType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table
+@Builder
 public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
-    private int messageID;
+    @Column(name = "id")
+    private int id;
 
-    @Column(name = "message_content")
-    private String messageContent;
+    @Column(name = "content")
+    private String content;
 
     @Column(name = "message_type")
     private MessageType messageType;
@@ -33,34 +36,21 @@ public class Message {
     private String mediaLocation;
 
     @Column(name = "status")
-    private String status;
+    private int status;
 
     @CreationTimestamp
     @Column(name = "creation_time")
-    private Timestamp creationTime;
+    private LocalDateTime creationTime;
 
-    @Column(name = "sender_id")
-    private int senderID;
 
-    @Column(name = "receiver_id", nullable = false, columnDefinition = "int default 0")
-    private int receiverID;
+
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE,
-              CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name="conversation_id")
-    private Conversation conversation;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="group_member_id")
+    private GroupMember groupMember;
 
 
-    public Message(MessageRequest messageRequest) {
-        this.messageContent = messageRequest.getMessageContent();
-        this.messageType = messageRequest.getMessageType();
-        this.mediaLocation = messageRequest.getMediaLocation();
-        this.status = messageRequest.getStatus();
-        this.creationTime = messageRequest.getCreationTime();
-        this.senderID = messageRequest.getSenderID();
-        this.receiverID = messageRequest.getReceiverID();
-    }
+
 }
 

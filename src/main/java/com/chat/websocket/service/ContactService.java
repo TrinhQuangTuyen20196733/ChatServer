@@ -1,5 +1,6 @@
 package com.chat.websocket.service;
 
+import com.chat.websocket.dto.request.UploadAvatarReq;
 import com.chat.websocket.entity.Contact;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -8,19 +9,8 @@ import java.util.List;
 
 public interface ContactService{
 
-    List<Contact> getAllContact();
 
-    Contact getContactByID(int id);
+    void save(Contact contact);
 
-    Contact addContactAndReturnContactSaved(Contact Contact);
-
-    void addContact(Contact contact);
-
-    Contact deleteContactByID(int id);
-
-    // public void createContactWithGroupMember();
-
-    public Contact findContactByGroupMemberID(int groupMemberID);
-
-    public List<Contact> findContactsByConversationID(int conversationID);
+    void uploadAvatar(UploadAvatarReq uploadAvatarReq);
 }

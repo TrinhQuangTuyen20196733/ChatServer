@@ -13,7 +13,8 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     // Thiết lập các endpoint STOMP cho WebSocket
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/urlSocket").withSockJS();
+        registry.addEndpoint("/chat-message").setAllowedOriginPatterns("*").withSockJS();
+
     }
 
     // Cấu hình message broker cho việc truyền tin nhắn

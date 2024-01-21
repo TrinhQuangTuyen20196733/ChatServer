@@ -6,8 +6,12 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Data
-@NoArgsConstructor
 public class MessageResponse {
-    public int status = 200;
+    public int code = 200;
     public String message = "Successfully!";
+    public Object data;
+    public MessageResponse() {
+        code =200;
+        message = "Successfully!";
+    }
 }

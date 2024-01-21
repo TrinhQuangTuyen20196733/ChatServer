@@ -1,82 +1,56 @@
 package com.chat.websocket.controller;
 
-import com.chat.websocket.dto.request.*;
+import com.chat.websocket.dto.request.ContactRequest;
+import com.chat.websocket.dto.request.UploadAvatarReq;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.entity.Contact;
-import com.chat.websocket.entity.Conversation;
-import com.chat.websocket.entity.GroupMember;
-import com.chat.websocket.entity.Message;
 import com.chat.websocket.service.ContactService;
-import com.chat.websocket.service.ConversationService;
-import com.chat.websocket.service.GroupMemberService;
-import com.chat.websocket.service.MessageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 //@Controller
 @RestController
-@RequestMapping("/api/chat/contacts")
+@RequestMapping("/contacts")
 @RequiredArgsConstructor
 public class ContactController {
 
-   private final ContactService contactService;
+    private final ContactService contactService;
 
-    //
-    //  Contact
-    //
-    // Get contact by contact id
-    @GetMapping("/{contactID}")
-    public ContactRequest contactByContactID(@PathVariable("contactID") int contactID) {
-        Contact contact = contactService.getContactByID(contactID);
-
-        ContactRequest contactRequest = new ContactRequest(contact);
-
-        return contactRequest;
-    }
-
-    // Get contact by group member id
-    @GetMapping("/group-member/{groupMemberID}")
-    public ContactRequest contactByGroupMember(@PathVariable("groupMemberID") int groupMemberID) {
-        // Find contact by group member id
-        Contact contact = contactService.findContactByGroupMemberID(groupMemberID);
-
-        if (contact != null){
-            // Create new contact request
-            ContactRequest contactRequest = new ContactRequest(contact);
-            System.out.println(contactRequest.toString());
-
-            return contactRequest;
-        }
-
-        return null;
-    }
 
     // Create contact
     @PostMapping
     public MessageResponse createContact(@RequestBody @Valid ContactRequest contactRequest) {
-        Contact contact = new Contact(contactRequest);
+        MessageResponse ms = new MessageResponse();
 
-        if (contactService.addContactAndReturnContactSaved(contact) != null) {
-            return new MessageResponse(200, "Contact created successfully!");
+        try {
+            Contact contact = new Contact(contactRequest);
+            contactService.save(contact);
+        } catch (Exception ex) {
+            ms.code = 500;
+            ms.message = ex.getMessage();
         }
 
-        return new MessageResponse(500, "Server Error!");
+
+        return ms;
+
     }
 
-    // Delete contact
-    @DeleteMapping("/{contactID}")
-    public MessageResponse deleteContact(@PathVariable("contactID") int contactID) {
-        if (contactService.deleteContactByID(contactID) != null) {
-            return new MessageResponse(200, "Contact deleted successfully!");
+    @PostMapping("/upload-avatar")
+    public MessageResponse updateAvatar(@RequestBody UploadAvatarReq uploadAvatarReq) {
+        MessageResponse ms = new MessageResponse();
+        try {
+            contactService.uploadAvatar(uploadAvatarReq);
         }
+        catch (Exception ex) {
+            ms.code = 500;
+            ms.message = ex.getMessage();
+        }
+        return ms;
 
-        return new MessageResponse(404, "Contact does not exists!");
     }
 
 

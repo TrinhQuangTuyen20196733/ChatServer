@@ -16,10 +16,5 @@ public class GroupMemberRequest {
     private String lastName;
     private String avatarLocation;
 
-    public GroupMemberRequest(GroupMember groupMember, String firstName, String lastName, String avatarLocation) {
-        this.groupMemberID = groupMember.getGroupMemberID();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avatarLocation = avatarLocation;
-    }
+   
 }
