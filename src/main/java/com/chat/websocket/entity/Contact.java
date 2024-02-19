@@ -12,15 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "contact")
-@ToString(exclude = "groupMembers")
 @Builder
-public class Contact {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
+public class Contact extends  BaseEntity{
     @Column(name = "first_name")
     private String name;
 
@@ -31,7 +24,6 @@ public class Contact {
     @Column(name = "avatar_location")
     private String avatarLocation;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "contact",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST},

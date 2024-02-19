@@ -21,10 +21,4 @@ public class MessageRequest {
 
     private String mediaLocation;
 
-    private String status;
-
-    private LocalDateTime creationTime;
-
-
-
 }

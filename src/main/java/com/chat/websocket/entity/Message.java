@@ -24,7 +24,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "content")
     private String content;
@@ -45,7 +45,6 @@ public class Message {
 
 
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="group_member_id")
     private GroupMember groupMember;

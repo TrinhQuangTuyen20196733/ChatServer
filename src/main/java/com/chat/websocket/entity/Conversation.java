@@ -10,24 +10,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = {"messages", "groupMembers"})
 @Entity
 @Table(name = "conversation")
 @Builder
-public class Conversation {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conversation_id")
-    private int id;
-
+public class Conversation extends  BaseEntity{
     @Column(name = "conversation_name")
     private String conversationName;
 
     @Enumerated(EnumType.STRING)
     private ConversationType conversationType;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "conversation",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST},

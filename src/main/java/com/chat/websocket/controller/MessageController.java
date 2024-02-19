@@ -1,64 +1,37 @@
-//package com.chat.websocket.controller;
-//
-//import com.chat.websocket.dto.request.*;
-//import com.chat.websocket.dto.response.MessageResponse;
-//import com.chat.websocket.entity.Contact;
-//import com.chat.websocket.entity.Conversation;
-//import com.chat.websocket.entity.GroupMember;
-//import com.chat.websocket.entity.Message;
-//import com.chat.websocket.service.ContactService;
-//import com.chat.websocket.service.ConversationService;
-//import com.chat.websocket.service.GroupMemberService;
-//import com.chat.websocket.service.MessageService;
-//import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.sql.Timestamp;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-////@Controller
-//@RestController
-//@RequestMapping("/api/chat/messages")
-//@RequiredArgsConstructor
-//public class MessageController {
-//
-//
-//   private final MessageService messageService;
-//
-//
-//    @GetMapping("/conversation/{conversationID}")
-//    public List<MessageRequest> messageList(@PathVariable("conversationID") int conversationID) {
-//        // Messages request
-//        List<MessageRequest> messageRequests = new ArrayList<>();
-//
-//        // Find message list by converstion id
-//        List<Message> messages = messageService.findMessagesByConversationID(conversationID);
-//
-//        if (messages != null) {
-//            for (Message message :
-//                    messages) {
-//                MessageRequest messageRequest = new MessageRequest(message);
-//
-//                messageRequests.add(messageRequest);
-//            }
-//
-//            return messageRequests;
-//        }
-//
-//        return null;
-//    }
-//
-//    // Delete message
-//    @DeleteMapping("/{messageID}")
-//    public MessageResponse deleteMessage(@PathVariable("messageID") int messageID) {
-//        if (messageService.deleteMessageByID(messageID) != null) {
-//            return new MessageResponse(200, "Message deleted successfully!");
-//        }
-//
-//        return new MessageResponse(404, "Message does not exists");
-//    }
-//
-//}
+package com.chat.websocket.controller;
+
+import com.chat.websocket.dto.response.ChatMessageRes;
+import com.chat.websocket.dto.response.MessageResponse;
+import com.chat.websocket.service.MessageService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/messages")
+@RequiredArgsConstructor
+public class MessageController {
+
+  private final MessageService messageService;
+
+  @GetMapping("conversation/{conversationId}")
+  public List<ChatMessageRes> getAllMessageConversation(long conversationId) {
+    return messageService.getAllMessageConversation(conversationId);
+  }
+
+  @DeleteMapping("conversation/{conversationId}")
+  public MessageResponse deleteMessageConversation(long messageId) {
+    MessageResponse ms = new MessageResponse();
+    try {
+      messageService.deleteMessageConversation(messageId);
+    } catch (Exception ex) {
+      ms.message = ex.getMessage();
+      ms.code = 5000;
+    }
+    return ms;
+
+  }
+}

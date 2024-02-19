@@ -10,6 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ContactRepository extends JpaRepository<Contact, Integer> {
+public interface ContactRepository extends JpaRepository<Contact, Long> {
     Optional<Contact> findByEmail(String email);
 }

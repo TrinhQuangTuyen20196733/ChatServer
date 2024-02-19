@@ -17,38 +17,37 @@ import java.util.List;
 @Entity
 @Table(name = "group_member")
 @Builder
-public class GroupMember {
+public class GroupMember extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
-    @Column(name = "last_seen")
-    private Timestamp lastSeen;
+    @Column(name = "last_activity")
+    private LocalDateTime lastActivity;
 
     @Column(name = "join_time")
     private LocalDateTime joinTime;
 
     @Column(name = "left_time")
     private LocalDateTime leftTime;
+    @Column(name = "is_active")
+    private boolean isActive;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name="contact_id")
     private Contact contact;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name="conversation_id")
     private Conversation conversation;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "groupMember",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST},
             orphanRemoval = true)
     private List<Message> messages;
+
+
 
     public GroupMember(LocalDateTime joinTime, Contact contact, Conversation conversation) {
         this.joinTime = joinTime;

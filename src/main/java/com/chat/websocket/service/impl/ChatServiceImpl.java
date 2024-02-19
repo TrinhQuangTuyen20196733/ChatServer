@@ -37,6 +37,7 @@ public class ChatServiceImpl implements ChatService {
             GroupMember groupMember = groupMemberRepository.findByEmailAndConversationId(email,conversationID).orElseThrow(()-> new BusinessLogicException());
             List<Message> messageList  = groupMember.getMessages();
             messageList.add(message);
+            groupMember.setLastActivity(LocalDateTime.now());
             groupMemberRepository.save(groupMember);
         }
     }

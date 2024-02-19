@@ -1,7 +1,10 @@
 package com.chat.websocket.controller;
 
 import com.chat.websocket.dto.request.ContactRequest;
+import com.chat.websocket.dto.request.GetContactByEmailReq;
 import com.chat.websocket.dto.request.UploadAvatarReq;
+import com.chat.websocket.dto.response.ContactDetailRes;
+import com.chat.websocket.dto.response.ContactRes;
 import com.chat.websocket.dto.response.MessageResponse;
 import com.chat.websocket.entity.Contact;
 import com.chat.websocket.service.ContactService;
@@ -51,6 +54,11 @@ public class ContactController {
         }
         return ms;
 
+    }
+
+    @PostMapping("getByEmail")
+    public ContactDetailRes getContactByEmail(@RequestBody GetContactByEmailReq getContactByEmailReq) {
+        return contactService.getContactByEmail(getContactByEmailReq);
     }
 
 
