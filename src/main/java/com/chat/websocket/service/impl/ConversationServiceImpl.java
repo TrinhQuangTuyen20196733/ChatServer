@@ -79,6 +79,7 @@ public class ConversationServiceImpl implements ConversationService {
                 .map(groupMember -> {
                       Contact contact = groupMember.getContact();
                       ContactRes contactRes = ContactRes.builder()
+                          .id(contact.getId())
                           .avatarLocation(contact.getAvatarLocation())
                           .name(contact.getName())
                           .email(contact.getEmail())
@@ -135,6 +136,7 @@ public class ConversationServiceImpl implements ConversationService {
                 Contact contact = groupMember.getContact();
 
                 ContactRes contactRes = ContactRes.builder()
+                    .id(contact.getId())
                     .avatarLocation(contact.getAvatarLocation())
                     .name(contact.getName())
                     .email(contact.getEmail())

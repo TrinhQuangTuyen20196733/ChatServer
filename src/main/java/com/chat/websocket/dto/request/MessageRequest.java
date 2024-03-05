@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class MessageRequest {
 
+    private int id;
+
     private String content;
 
     private String messageType;
